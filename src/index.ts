@@ -53,6 +53,7 @@ import { OkexClient } from "./exchanges/OkexClient";
 import { PoloniexClient } from "./exchanges/PoloniexClient";
 import { UpbitClient } from "./exchanges/UpbitClient";
 import { ZbClient } from "./exchanges/ZbClient";
+import { MexcClient } from "./exchanges/MexcClient";
 
 export {
     //
@@ -115,6 +116,7 @@ export {
     KrakenMultiClient,
     LedgerXClient,
     LiquidClient,
+    MexcClient,
     OkexClient,
     PoloniexClient,
     UpbitClient,
@@ -175,6 +177,7 @@ export default {
     },
     LedgerX: LedgerXClient,
     Liquid: LiquidClient,
+    Mexc: MexcClient,
     OKEx: OkexClient,
     Poloniex: PoloniexClient,
     Upbit: UpbitClient,

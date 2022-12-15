@@ -82,6 +82,7 @@ binance.subscribeLevel2Snapshots(market);
 | Huobi Japan            | 1   | HuobiJapanClient          | &#10003; | &#10003; | &#10003; | &#10003;       | -             | -              | -             |
 | Huobi Korea            | 1   | HuobiKoreaClient          | &#10003; | &#10003; | &#10003; | &#10003;       | -             | -              | -             |
 | KuCoin                 | 2   | KucoinClient              | &#10003; | &#10003; | &#10003; | -              | &#10003;\*\*  | -              | &#10003;\*    |
+| Mexc                   | 2   | MexcClient                | - | &#10003; | - | -              | &#10003;  | -              | -    |
 | Kraken                 | 0   | KrakenClient              | &#10003; | &#10003; | &#10003; | -              | &#10003;\*    | -              | -             |
 | ?LedgerX               | 1   | LedgerXClient             | -        | &#10003; | -        | -              | -             | -              | &#10003;\*    |
 | Liquid                 | 2   | LiquidClient              | &#10003; | &#10003; | -        | -              | &#10003;      | -              | -             |
