@@ -28,7 +28,7 @@ export class GateioClient extends BasicClient {
     protected _debounceHandles: Map<any, any>;
     protected _pingInterval: NodeJS.Timeout;
 
-    constructor({ wssPath = "wss://ws.gate.io/v3", watcherMs = 900 * 1000 }: ClientOptions = {}) {
+    constructor({ wssPath = "wss://api.gateio.ws/ws/v4", watcherMs = 900 * 1000 }: ClientOptions = {}) {
         super(wssPath, "Gateio", undefined, watcherMs);
         this.hasTickers = true;
         this.hasTrades = true;
