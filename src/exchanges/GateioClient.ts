@@ -28,7 +28,7 @@ export class GateioClient extends BasicClient {
     protected _debounceHandles: Map<any, any>;
     protected _pingInterval: NodeJS.Timeout;
 
-    constructor({ wssPath = "wss://ws.gate.io/v4", watcherMs = 900 * 1000 }: ClientOptions = {}) {
+    constructor({ wssPath = "wss://api.gateio.ws/ws/v4/", watcherMs = 900 * 1000 }: ClientOptions = {}) {
         super(wssPath, "Gateio", undefined, watcherMs);
         this.hasTickers = true;
         this.hasTrades = true;
@@ -74,8 +74,9 @@ export class GateioClient extends BasicClient {
             const markets = Array.from(this._tickerSubs.keys()).map(m => m.toUpperCase()); // must be uppercase
             this._wss.send(
                 JSON.stringify({
-                    method: "ticker.subscribe",
-                    params: markets,
+                    channel: "spot.tickers",
+                    event: "subscribe",
+                    payload: markets,
                     id: 1,
                 }),
             );
