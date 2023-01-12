@@ -102,7 +102,7 @@ export class BitfinexClient extends BasicClient {
     protected _sendUnsubLevel3Snapshots = NotImplementedAsyncFn;
 
     constructor({
-        wssPath = "wss://api-pub.bitfinex.com/ws/2",
+        wssPath = "wss://api.bitfinex.com/ws/2",
         watcherMs,
         l2UpdateDepth = 250,
         enableEmptyHeartbeatEvents = false,
