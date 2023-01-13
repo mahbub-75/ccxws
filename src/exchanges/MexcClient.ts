@@ -25,8 +25,23 @@ export class MexcClient extends BasicClient {
         this.hasLevel2Updates = true;
     }
 
-    protected _sendSubTicker = NotImplementedFn;
-    protected _sendUnsubTicker = NotImplementedFn;
+    protected _sendSubTicker (remote_id: string) {
+        this._wss.send(
+            JSON.stringify({
+                "method": "sub.tickers",
+                "param": {}
+            }),
+        );
+    };
+    protected _sendUnsubTicker (remote_id: string) {
+        this._wss.send(
+            JSON.stringify({
+                "method": "unsub.tickers",
+                "param": {}
+
+            }),
+        );
+    };
 
     protected _sendSubTrades(remote_id: string) {
         this._wss.send(
