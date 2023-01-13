@@ -23,7 +23,7 @@ export class HitBtcClient extends BasicClient {
     protected _send: CancelableFn;
 
     constructor({
-        wssPath = "wss://api.hitbtc.com/api/2/ws",
+        wssPath = "wss://api.hitbtc.com/api/3/ws/public",
         throttleMs = 25,
         watcherMs,
     }: ClientOptions = {}) {
@@ -49,9 +49,10 @@ export class HitBtcClient extends BasicClient {
     protected _sendSubTicker(remote_id: string) {
         this._send(
             JSON.stringify({
-                method: "subscribeTicker",
+                method: "subscribe",
+                ch: "ticker/1s",
                 params: {
-                    symbol: remote_id,
+                    symbols: remote_id,
                 },
                 id: ++this._id,
             }),
@@ -61,9 +62,9 @@ export class HitBtcClient extends BasicClient {
     protected _sendUnsubTicker(remote_id: string) {
         this._send(
             JSON.stringify({
-                method: "unsubscribeTicker",
+                method: "unsubscribe",
                 params: {
-                    symbol: remote_id,
+                    symbols: remote_id,
                 },
             }),
         );
