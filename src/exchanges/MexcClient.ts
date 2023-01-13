@@ -28,18 +28,16 @@ export class MexcClient extends BasicClient {
     protected _sendSubTicker (remote_id: string) {
         this._wss.send(
             JSON.stringify({
-                method: "sub.ticker",
-                param: {
-                    symbol: remote_id,
-                }
+                op: "sub.ticker",
+                symbol: remote_id
             }),
         );
     };
     protected _sendUnsubTicker (remote_id: string) {
         this._wss.send(
             JSON.stringify({
-                method: "unsub.ticker",
-                param: {}
+                op: "unsub.ticker",
+                symbol: remote_id
             }),
         );
     };
