@@ -52,7 +52,7 @@ export class HitBtcClient extends BasicClient {
                 method: "subscribe",
                 ch: "ticker/1s",
                 params: {
-                    symbols: remote_id,
+                    symbol: remote_id,
                 },
                 id: ++this._id,
             }),
@@ -64,7 +64,7 @@ export class HitBtcClient extends BasicClient {
             JSON.stringify({
                 method: "unsubscribe",
                 params: {
-                    symbols: remote_id,
+                    symbol: remote_id,
                 },
             }),
         );
