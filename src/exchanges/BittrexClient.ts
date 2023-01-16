@@ -324,6 +324,7 @@ export class BittrexClient extends BasicClient {
     }
 
     protected _constructTicker(msg, market) {
+        console.log(`msg: ${msg}`)
         const { high, low, volume, quoteVolume, percentChange, updatedAt } = msg;
         return new Ticker({
             exchange: this.name,
