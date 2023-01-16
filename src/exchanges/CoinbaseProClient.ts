@@ -190,7 +190,7 @@ export class CoinbaseProClient extends BasicClient {
 
     protected _constructTicker(msg, market: Market) {
         const { price, volume_24h, open_24h, low_24h, high_24h, best_bid, best_ask, time } = msg;
-        console.log(Object.keys('msg: ',msg))
+        console.log(Object.keys('msg: '),msg)
         const change = parseFloat(price) - parseFloat(open_24h);
         const changePercent =
             ((parseFloat(price) - parseFloat(open_24h)) / parseFloat(open_24h)) * 100;
