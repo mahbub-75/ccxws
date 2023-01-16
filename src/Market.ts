@@ -3,6 +3,6 @@ export type Market = {
     base: string;
     quote: string;
     type?: string;
-    symbol: string;
-    precision: any
+    symbol?: string;
+    precision?: any
 };

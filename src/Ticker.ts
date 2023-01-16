@@ -16,9 +16,9 @@ export class Ticker {
     public bidVolume: string;
     public ask: string;
     public askVolume: string;
-    public id: string;
-    public symbol: string;
-    public precision: any
+    public id?: string;
+    public symbol?: string;
+    public precision?: any
 
     constructor({
                     exchange,
@@ -42,7 +42,6 @@ export class Ticker {
                     symbol,
                     precision
 
-
                 }: Partial<Ticker>) {
         this.exchange = exchange;
         this.base = base;
@@ -61,7 +60,7 @@ export class Ticker {
         this.bidVolume = bidVolume;
         this.ask = ask;
         this.askVolume = askVolume;
-        this.id= id;
+        this.id = id;
         this.symbol = symbol;
         this.precision = precision
     }
