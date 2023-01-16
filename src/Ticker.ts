@@ -16,26 +16,34 @@ export class Ticker {
     public bidVolume: string;
     public ask: string;
     public askVolume: string;
+    public id: string;
+    public symbol: string;
+    public precision: any
 
     constructor({
-        exchange,
-        base,
-        quote,
-        timestamp,
-        sequenceId,
-        last,
-        open,
-        high,
-        low,
-        volume,
-        quoteVolume,
-        change,
-        changePercent,
-        bid,
-        bidVolume,
-        ask,
-        askVolume,
-    }: Partial<Ticker>) {
+                    exchange,
+                    base,
+                    quote,
+                    timestamp,
+                    sequenceId,
+                    last,
+                    open,
+                    high,
+                    low,
+                    volume,
+                    quoteVolume,
+                    change,
+                    changePercent,
+                    bid,
+                    bidVolume,
+                    ask,
+                    askVolume,
+                    id,
+                    symbol,
+                    precision
+
+
+                }: Partial<Ticker>) {
         this.exchange = exchange;
         this.base = base;
         this.quote = quote;
@@ -53,6 +61,9 @@ export class Ticker {
         this.bidVolume = bidVolume;
         this.ask = ask;
         this.askVolume = askVolume;
+        this.id= id;
+        this.symbol = symbol;
+        this.precision = precision
     }
 
     /**
