@@ -224,6 +224,7 @@ export class HitBtcClient extends BasicClient {
             100
         ).toFixed(8);
         return new Ticker({
+           ...market,
             exchange: this.name,
             base: market.base,
             quote: market.quote,

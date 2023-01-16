@@ -5,19 +5,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { BasicClient, MarketMap, SendFn } from "../BasicClient";
-import { BasicMultiClientV2 } from "../BasicMultiClientV2";
-import { IClient } from "../IClient";
-import { Level2Point } from "../Level2Point";
-import { Level2Snapshot } from "../Level2Snapshots";
-import { Level2Update } from "../Level2Update";
-import { Level3Point } from "../Level3Point";
-import { Level3Snapshot } from "../Level3Snapshot";
-import { Level3Update } from "../Level3Update";
-import { Market } from "../Market";
-import { NotImplementedAsyncFn, NotImplementedFn } from "../NotImplementedFn";
-import { Ticker } from "../Ticker";
-import { Trade } from "../Trade";
+import {BasicClient, MarketMap, SendFn} from "../BasicClient";
+import {BasicMultiClientV2} from "../BasicMultiClientV2";
+import {IClient} from "../IClient";
+import {Level2Point} from "../Level2Point";
+import {Level2Snapshot} from "../Level2Snapshots";
+import {Level2Update} from "../Level2Update";
+import {Level3Point} from "../Level3Point";
+import {Level3Snapshot} from "../Level3Snapshot";
+import {Level3Update} from "../Level3Update";
+import {Market} from "../Market";
+import {NotImplementedAsyncFn, NotImplementedFn} from "../NotImplementedFn";
+import {Ticker} from "../Ticker";
+import {Trade} from "../Trade";
 
 export enum BitfinexTradeMessageType {
     /**
@@ -73,7 +73,7 @@ export class BitfinexMultiClient extends BasicMultiClientV2 {
 
     constructor(options: BitfinexClientOptions = {}) {
         const sockerPairLimit = 25;
-        super({ sockerPairLimit });
+        super({sockerPairLimit});
         this.throttleMs = 3000;
         this.options = options;
         this.hasTickers = true;
@@ -83,7 +83,7 @@ export class BitfinexMultiClient extends BasicMultiClientV2 {
     }
 
     protected _createBasicClient(): IClient {
-        return new BitfinexClient({ ...this.options, parent: this });
+        return new BitfinexClient({...this.options, parent: this});
     }
 }
 
@@ -102,13 +102,13 @@ export class BitfinexClient extends BasicClient {
     protected _sendUnsubLevel3Snapshots = NotImplementedAsyncFn;
 
     constructor({
-        wssPath = "wss://api-pub.bitfinex.com/ws/2",
-        watcherMs,
-        l2UpdateDepth = 250,
-        enableEmptyHeartbeatEvents = false,
-        tradeMessageType = BitfinexTradeMessageType.Update,
-        parent,
-    }: BitfinexClientOptions = {}) {
+                    wssPath = "wss://api-pub.bitfinex.com/ws/2",
+                    watcherMs,
+                    l2UpdateDepth = 250,
+                    enableEmptyHeartbeatEvents = false,
+                    tradeMessageType = BitfinexTradeMessageType.Update,
+                    parent,
+                }: BitfinexClientOptions = {}) {
         super(wssPath, "Bitfinex", undefined, watcherMs);
         this._channels = {};
 
@@ -157,7 +157,7 @@ export class BitfinexClient extends BasicClient {
         // 32768 adds a Timestamp in milliseconds to each received event
         // 131072 Enable checksum for every book iteration. Checks the top 25 entries for each side of book. Checksum is a signed int. more info https://docs.bitfinex.com/docs/ws-websocket-checksum. it's sent in its own
         // separate event so we've disabled it
-        this._wss.send(JSON.stringify({ event: "conf", flags: 65536 + 32768 }));
+        this._wss.send(JSON.stringify({event: "conf", flags: 65536 + 32768}));
     }
 
     protected _sendSubTicker(remote_id: string) {
@@ -403,6 +403,7 @@ export class BitfinexClient extends BasicClient {
             msgBody;
         const open = last + change;
         const ticker = new Ticker({
+            ...market,
             exchange: "Bitfinex",
             base: market.base,
             quote: market.quote,
@@ -442,6 +443,7 @@ export class BitfinexClient extends BasicClient {
         this.emit("trade", trade, market);
         return;
     }
+
     /**
      * Handle the trade history payload received when initially subscribing, which includes recent trades history.
      * Each trade in history is emitted as its own trade event.

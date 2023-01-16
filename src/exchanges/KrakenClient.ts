@@ -456,6 +456,7 @@ export class KrakenClient extends BasicClient {
         const quoteVolume = parseFloat(msg.v[1]) * parseFloat(msg.p[1]);
 
         return new Ticker({
+         ...market,
             exchange: this.name,
             base: market.base,
             quote: market.quote,

@@ -551,6 +551,7 @@ export class OkexClient extends BasicClient {
             .utc()
             .valueOf();
         return new Ticker({
+           ...market,
             exchange: this.name,
             base: market.base,
             quote: market.quote,

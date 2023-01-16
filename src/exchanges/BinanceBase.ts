@@ -370,9 +370,8 @@ export class BinanceBase extends BasicClient {
         } = msg;
         const open = parseFloat(last) + parseFloat(change);
         return new Ticker({
+            ...market,
             exchange: this.name,
-            base: market.base,
-            quote: market.quote,
             timestamp: timestamp,
             last,
             open: open.toFixed(8),
