@@ -189,8 +189,7 @@ export class CoinbaseProClient extends BasicClient {
     }
 
     protected _constructTicker(msg, market: Market) {
-        const { price, volume_24h, open_24h, low_24h, high_24h, best_bid, best_ask, time } = msg;
-        console.log(Object.keys('msg: '),msg)
+        const { price, volume_24h, open_24h, low_24h, high_24h, best_bid, best_bid_size, best_ask,best_ask_size, time } = msg;
         const change = parseFloat(price) - parseFloat(open_24h);
         const changePercent =
             ((parseFloat(price) - parseFloat(open_24h)) / parseFloat(open_24h)) * 100;
@@ -208,7 +207,9 @@ export class CoinbaseProClient extends BasicClient {
             change: change.toFixed(8),
             changePercent: changePercent.toFixed(8),
             bid: best_bid,
+            bidVolume: best_bid_size,
             ask: best_ask,
+            askVolume: best_ask_size
         });
     }
 
