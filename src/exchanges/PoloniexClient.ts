@@ -141,7 +141,9 @@ export class PoloniexClient extends BasicClient {
 
     protected _createTicker(update, market): Ticker {
         const { dailyChange, high, amount, quantity, low, open, ts } = update;
+        console.log(Object.keys(update))
         return new Ticker({
+            ...market,
             exchange: this.name,
             base: market.base,
             quote: market.quote,
