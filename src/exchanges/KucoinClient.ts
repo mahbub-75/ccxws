@@ -483,6 +483,7 @@ export class KucoinClient extends BasicClient {
             bestAsk,
             bestAskSize
         } = msg.data;
+        console.log(msg.subject)
 if (!msg.subject.includes('-USDT')){
     return
 }
