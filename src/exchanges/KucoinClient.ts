@@ -469,7 +469,6 @@ export class KucoinClient extends BasicClient {
     }
 
     protected _processTicker(msg: any) {
-        console.log(msg)
         const {
             symbol,
             high,
