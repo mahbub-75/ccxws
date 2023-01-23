@@ -483,6 +483,7 @@ export class KucoinClient extends BasicClient {
             bestAsk,
             bestAskSize
         } = msg.data;
+        console.log(msg)
         const symbol = msg.topic.split('/market/ticker:')[2];
         console.log(symbol)
         const market = this._tickerSubs.get(symbol);
