@@ -488,7 +488,8 @@ if (!msg.subject.includes('-USDT')){
 }
 const base = msg.subject.split('-USDT')[0]
         const ticker = new Ticker({
-            symbol: msg.subject,
+            symbol: `${base}/USDT`,
+            id: msg.subject,
             exchange: this.name,
             base: base,
             quote: 'USDT',
