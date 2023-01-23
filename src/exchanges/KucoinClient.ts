@@ -197,7 +197,7 @@ export class KucoinClient extends BasicClient {
             JSON.stringify({
                 id: new Date().getTime(),
                 type: "subscribe",
-                topic: "/market/snapshot:" + remote_id,
+                topic: "/market/ticker:" + remote_id,
                 privateChannel: false,
                 response: true,
             }),
@@ -209,7 +209,7 @@ export class KucoinClient extends BasicClient {
             JSON.stringify({
                 id: new Date().getTime(),
                 type: "unsubscribe",
-                topic: "/market/snapshot:" + remote_id,
+                topic: "/market/ticker:" + remote_id,
                 privateChannel: false,
                 response: true,
             }),
@@ -361,7 +361,7 @@ export class KucoinClient extends BasicClient {
         }
 
         // tickers
-        if (msg.subject === "trade.snapshot") {
+        if (msg.subject === "trade.ticker") {
             this._processTicker(msg);
             return;
         }
@@ -480,8 +480,10 @@ export class KucoinClient extends BasicClient {
             changePrice,
             changeRate,
             open,
-            sell,
-            buy,
+            bestBid,
+            bestBidSize,
+            bestAsk,
+            bestAskSize
         } = msg.data.data;
         const market = this._tickerSubs.get(symbol);
 
@@ -501,11 +503,11 @@ export class KucoinClient extends BasicClient {
             volume: vol,
             change: changePrice.toFixed ? changePrice.toFixed(8) : changePrice,
             changePercent: changeRate.toFixed ? changeRate.toFixed(2) : changeRate,
-            bid: buy,
-            ask: sell,
-            bidVolume: undefined,
+            bid: bestBid,
+            ask: bestAsk,
+            bidVolume: bestBidSize,
             quoteVolume: undefined,
-            askVolume: undefined,
+            askVolume: bestAskSize,
         });
 
         this.emit("ticker", ticker, market);
