@@ -484,7 +484,7 @@ export class KucoinClient extends BasicClient {
             bestBidSize,
             bestAsk,
             bestAskSize
-        } = msg.data.data;
+        } = msg.data;
         const market = this._tickerSubs.get(symbol);
 
         if (!market) {
