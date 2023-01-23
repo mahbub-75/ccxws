@@ -5,27 +5,27 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-implied-eval */
-import { BasicClient } from "../BasicClient";
-import { BasicMultiClientV2 } from "../BasicMultiClientV2";
-import { IClient } from "../IClient";
-import { CandlePeriod } from "../CandlePeriod";
-import { ClientOptions } from "../ClientOptions";
-import { CancelableFn } from "../flowcontrol/Fn";
-import { wait } from "../Util";
+import {BasicClient} from "../BasicClient";
+import {BasicMultiClientV2} from "../BasicMultiClientV2";
+import {IClient} from "../IClient";
+import {CandlePeriod} from "../CandlePeriod";
+import {ClientOptions} from "../ClientOptions";
+import {CancelableFn} from "../flowcontrol/Fn";
+import {wait} from "../Util";
 import crypto from "crypto";
-import { Trade } from "../Trade";
-import { Candle } from "../Candle";
-import { Ticker } from "../Ticker";
-import { Level2Point } from "../Level2Point";
-import { Level2Update } from "../Level2Update";
-import { Market } from "../Market";
-import { Level2Snapshot } from "../Level2Snapshots";
+import {Trade} from "../Trade";
+import {Candle} from "../Candle";
+import {Ticker} from "../Ticker";
+import {Level2Point} from "../Level2Point";
+import {Level2Update} from "../Level2Update";
+import {Market} from "../Market";
+import {Level2Snapshot} from "../Level2Snapshots";
 import * as https from "../Https";
-import { Level3Update } from "../Level3Update";
-import { throttle } from "../flowcontrol/Throttle";
-import { Level3Point } from "../Level3Point";
-import { Level3Snapshot } from "../Level3Snapshot";
-import { NotImplementedFn } from "../NotImplementedFn";
+import {Level3Update} from "../Level3Update";
+import {throttle} from "../flowcontrol/Throttle";
+import {Level3Point} from "../Level3Point";
+import {Level3Snapshot} from "../Level3Snapshot";
+import {NotImplementedFn} from "../NotImplementedFn";
 
 export type KucoinClientOptions = ClientOptions & {
     sendThrottleMs?: number;
@@ -47,7 +47,7 @@ export class KucoinMultiClient extends BasicMultiClientV2 {
 
     constructor(options: KucoinClientOptions = {}) {
         const sockerPairLimit = 300;
-        super({ sockerPairLimit });
+        super({sockerPairLimit});
         this.options = options;
         this.hasTickers = true;
         this.hasTrades = true;
@@ -57,7 +57,7 @@ export class KucoinMultiClient extends BasicMultiClientV2 {
     }
 
     protected _createBasicClient(): IClient {
-        return new KucoinClient({ ...this.options, parent: this });
+        return new KucoinClient({...this.options, parent: this});
     }
 }
 
@@ -75,12 +75,12 @@ export class KucoinClient extends BasicClient {
     protected _pingInterval: NodeJS.Timeout;
 
     constructor({
-        wssPath,
-        watcherMs,
-        sendThrottleMs = 10,
-        restThrottleMs = 250,
-        parent = null,
-    }: KucoinClientOptions = {}) {
+                    wssPath,
+                    watcherMs,
+                    sendThrottleMs = 10,
+                    restThrottleMs = 250,
+                    parent = null,
+                }: KucoinClientOptions = {}) {
         super(wssPath, "KuCoin", undefined, watcherMs);
         this.hasTickers = true;
         this.hasTrades = true;
@@ -144,7 +144,7 @@ export class KucoinClient extends BasicClient {
      */
     protected _connect() {
         if (!this._wss) {
-            this._wss = { status: "connecting" } as any;
+            this._wss = {status: "connecting"} as any;
             if (this.wssPath) super._connect();
             else this._connectAsync();
         }
@@ -158,8 +158,8 @@ export class KucoinClient extends BasicClient {
             try {
                 const raw: any = await https.post("https://openapi-v2.kucoin.com/api/v1/bullet-public"); // prettier-ignore
                 if (!raw.data || !raw.data.token) throw new Error("Unexpected token response");
-                const { token, instanceServers } = raw.data;
-                const { endpoint, pingInterval } = instanceServers[0];
+                const {token, instanceServers} = raw.data;
+                const {endpoint, pingInterval} = instanceServers[0];
                 this._connectId = crypto.randomBytes(24).toString("hex");
                 this._pingIntervalTime = pingInterval;
                 wssPath = `${endpoint}?token=${token}&connectId=${this._connectId}`;
@@ -404,7 +404,7 @@ export class KucoinClient extends BasicClient {
     }
 
     protected _processTrades(msg: any) {
-        let { symbol, time, side, size, price, tradeId, makerOrderId, takerOrderId } = msg.data;
+        let {symbol, time, side, size, price, tradeId, makerOrderId, takerOrderId} = msg.data;
         const market = this._tradeSubs.get(symbol);
         if (!market) {
             return;
@@ -431,7 +431,7 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-    {
+     {
         "type":"message",
         "topic":"/market/candles:BTC-USDT_1hour",
         "subject":"trade.candles.update",
@@ -451,9 +451,9 @@ export class KucoinClient extends BasicClient {
             "time":1589970010253893337  // now（us）
         }
     }
-   */
+     */
     protected _processCandles(msg: any) {
-        const { symbol, candles } = msg.data;
+        const {symbol, candles} = msg.data;
         const market = this._candleSubs.get(symbol);
         if (!market) return;
 
@@ -495,18 +495,9 @@ export class KucoinClient extends BasicClient {
             exchange: this.name,
             base: market.base,
             quote: market.quote,
-            timestamp: parseFloat(datetime),
-            last: lastTradedPrice,
-            open: open,
-            high: high,
-            low: low,
-            volume: vol,
-            change: changePrice.toFixed ? changePrice.toFixed(8) : changePrice,
-            changePercent: changeRate.toFixed ? changeRate.toFixed(2) : changeRate,
             bid: bestBid,
             ask: bestAsk,
             bidVolume: bestBidSize,
-            quoteVolume: undefined,
             askVolume: bestAskSize,
         });
 
@@ -514,7 +505,7 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-    {
+     {
       "data":{
         "sequenceStart":"1584724386150",
         "symbol":"BTC-USDT",
@@ -530,9 +521,9 @@ export class KucoinClient extends BasicClient {
       "topic":"/market/level2:BTC-USDT",
       "type":"message"
     }
-   */
+     */
     protected _processL2Update(msg: any) {
-        const { symbol, changes, sequenceStart, sequenceEnd } = msg.data;
+        const {symbol, changes, sequenceStart, sequenceEnd} = msg.data;
         const market = this._level2UpdateSubs.get(symbol);
 
         if (!market) {
@@ -556,7 +547,7 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-   {
+     {
       "code": "200000",
       "data": {
         "sequence": "1584724519811",
@@ -583,7 +574,7 @@ export class KucoinClient extends BasicClient {
         "time": 1591469595966
       }
     }
-   */
+     */
     protected async __requestLevel2Snapshot(market: Market) {
         try {
             const remote_id = market.id;
@@ -609,11 +600,11 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-   RECEIVED - This message type is really for informational purposes and
-   does not include a side or price. Similar to the done message below
-   we will include a psuedo-point with zeroedp price and amount to
-   maintain consistency with other implementations.
-   {
+     RECEIVED - This message type is really for informational purposes and
+     does not include a side or price. Similar to the done message below
+     we will include a psuedo-point with zeroedp price and amount to
+     maintain consistency with other implementations.
+     {
       "data": {
         "symbol": "BTC-USDT",
         "sequence": "1594781753800",
@@ -625,14 +616,14 @@ export class KucoinClient extends BasicClient {
       "topic": "/spotMarket/level3:BTC-USDT",
       "type": "message"
     }
-  */
+     */
     protected _processL3UpdateReceived(msg: any) {
-        const { symbol, sequence, orderId, clientOid, ts } = msg.data;
+        const {symbol, sequence, orderId, clientOid, ts} = msg.data;
 
         const market = this._level3UpdateSubs.get(symbol);
         if (!market) return;
 
-        const point = new Level3Point(orderId, "0", "0", { type: msg.subject, clientOid, ts });
+        const point = new Level3Point(orderId, "0", "0", {type: msg.subject, clientOid, ts});
 
         const update = new Level3Update({
             exchange: this.name,
@@ -647,8 +638,8 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-    OPEN
-    {
+     OPEN
+     {
       "data": {
         "symbol": "BTC-USDT",
         "sequence": "1594781800484",
@@ -663,9 +654,9 @@ export class KucoinClient extends BasicClient {
       "topic": "/spotMarket/level3:BTC-USDT",
       "type": "message"
     }
-   */
+     */
     protected _processL3UpdateOpen(msg: any) {
-        const { symbol, sequence, side, orderTime, size, orderId, price, ts } = msg.data;
+        const {symbol, sequence, side, orderTime, size, orderId, price, ts} = msg.data;
 
         const market = this._level3UpdateSubs.get(symbol);
         if (!market) return;
@@ -673,7 +664,7 @@ export class KucoinClient extends BasicClient {
         const asks = [];
         const bids = [];
 
-        const point = new Level3Point(orderId, price, size, { type: msg.subject, orderTime, ts });
+        const point = new Level3Point(orderId, price, size, {type: msg.subject, orderTime, ts});
         if (side === "buy") bids.push(point);
         else asks.push(point);
 
@@ -690,11 +681,11 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-    DONE - because done does not include price,size, or side of book,
-    we will create a zeroed point on both sides of the book. This keeps
-    consistency with other order books that always have a point.
+     DONE - because done does not include price,size, or side of book,
+     we will create a zeroed point on both sides of the book. This keeps
+     consistency with other order books that always have a point.
 
-    {
+     {
       "data": {
         "symbol": "BTC-USDT",
         "reason": "canceled",
@@ -706,14 +697,14 @@ export class KucoinClient extends BasicClient {
       "topic": "/spotMarket/level3:BTC-USDT",
       "type": "message"
     }
-   */
+     */
     protected _processL3UpdateDone(msg: any) {
-        const { symbol, sequence, orderId, reason, ts } = msg.data;
+        const {symbol, sequence, orderId, reason, ts} = msg.data;
 
         const market = this._level3UpdateSubs.get(symbol);
         if (!market) return;
 
-        const point = new Level3Point(orderId, "0", "0", { type: msg.subject, reason, ts });
+        const point = new Level3Point(orderId, "0", "0", {type: msg.subject, reason, ts});
 
         const update = new Level3Update({
             exchange: this.name,
@@ -728,11 +719,11 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-   MATCH - for the sake of the update, we will follow with the
-   information that is updated in the orderbook, that is the maker. In
-   this case, the remainSize is the value that should be adjusted
-   for the maker's order.
-   {
+     MATCH - for the sake of the update, we will follow with the
+     information that is updated in the orderbook, that is the maker. In
+     this case, the remainSize is the value that should be adjusted
+     for the maker's order.
+     {
       "data": {
         "symbol": "BTC-USDT",
         "sequence": "1594781824886",
@@ -749,7 +740,7 @@ export class KucoinClient extends BasicClient {
       "topic": "/spotMarket/level3:BTC-USDT",
       "type": "message"
     }
-   */
+     */
     protected _processL3UpdateMatch(msg: any) {
         const {
             symbol,
@@ -802,10 +793,10 @@ export class KucoinClient extends BasicClient {
     }
 
     /**
-   CHANGE - because change does not include the side, we again duplicate
-   points in the asks and bids. The price is also not inclued and is
-   zeroed to maintain consistency with the remainder of the library
-   {
+     CHANGE - because change does not include the side, we again duplicate
+     points in the asks and bids. The price is also not inclued and is
+     zeroed to maintain consistency with the remainder of the library
+     {
       "data": {
         "symbol": "BTC-USDT",
         "sequence": "1594781878279",
@@ -817,12 +808,12 @@ export class KucoinClient extends BasicClient {
       "topic": "/spotMarket/level3:BTC-USDT",
       "type": "message"
     }
-   */
+     */
     protected _processL3UpdateUpdate(msg: any) {
-        const { symbol, sequence, orderId, size, ts } = msg.data;
+        const {symbol, sequence, orderId, size, ts} = msg.data;
         const market = this._level3UpdateSubs.get(symbol);
         if (!market) return;
-        const point = new Level3Point(orderId, "0", size, { type: msg.subject, ts });
+        const point = new Level3Point(orderId, "0", size, {type: msg.subject, ts});
         const update = new Level3Update({
             exchange: this.name,
             base: market.base,
