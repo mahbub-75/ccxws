@@ -470,7 +470,6 @@ export class KucoinClient extends BasicClient {
 
     protected _processTicker(msg: any) {
         const {
-            symbol,
             high,
             low,
             datetime,
@@ -484,6 +483,7 @@ export class KucoinClient extends BasicClient {
             bestAsk,
             bestAskSize
         } = msg.data;
+        const symbol = msg.topic.split('/market/ticker:')[2]
         const market = this._tickerSubs.get(symbol);
 
         if (!market) {
