@@ -469,7 +469,6 @@ export class KucoinClient extends BasicClient {
     }
 
     protected _processTicker(msg: any) {
-        console.log(msg)
         const {
             symbol,
             high,
@@ -492,6 +491,7 @@ export class KucoinClient extends BasicClient {
         }
 
         const ticker = new Ticker({
+            ...market,
             exchange: this.name,
             base: market.base,
             quote: market.quote,
