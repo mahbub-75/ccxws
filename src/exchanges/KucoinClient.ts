@@ -75,7 +75,7 @@ export class KucoinClient extends BasicClient {
     protected _pingInterval: NodeJS.Timeout;
 
     constructor({
-                    wssPath,
+                    wssPath = 'wss://push1-v2.kucoin.com/endpoint',
                     watcherMs,
                     sendThrottleMs = 10,
                     restThrottleMs = 250,
