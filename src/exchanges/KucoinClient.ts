@@ -197,7 +197,7 @@ export class KucoinClient extends BasicClient {
             JSON.stringify({
                 id: new Date().getTime(),
                 type: "subscribe",
-                topic: "/market/ticker:all",
+                topic: "/market/ticker:" + remote_id,
                 privateChannel: false,
                 response: true,
             }),
@@ -209,7 +209,7 @@ export class KucoinClient extends BasicClient {
             JSON.stringify({
                 id: new Date().getTime(),
                 type: "unsubscribe",
-                topic: "/market/ticker:all",
+                topic: "/market/ticker:" + remote_id,
                 privateChannel: false,
                 response: true,
             }),
@@ -483,24 +483,25 @@ export class KucoinClient extends BasicClient {
             bestAsk,
             bestAskSize
         } = msg.data;
-        console.log(msg.subject)
-if (!msg.subject.includes('-USDT')){
-    return
-}
-const base = msg.subject.split('-USDT')[0]
+        const symbol = msg.topic.split('/market/ticker:')[1];
+        const market = this._tickerSubs.get(symbol);
+
+        if (!market) {
+            return;
+        }
+
         const ticker = new Ticker({
-            symbol: `${base}/USDT`,
-            id: msg.subject,
+            ...market,
             exchange: this.name,
-            base: base,
-            quote: 'USDT',
+            base: market.base,
+            quote: market.quote,
             bid: bestBid,
             ask: bestAsk,
             bidVolume: bestBidSize,
             askVolume: bestAskSize,
         });
 
-        this.emit("ticker", ticker);
+        this.emit("ticker", ticker, market);
     }
 
     /**
