@@ -154,7 +154,7 @@ export class KucoinClient extends BasicClient {
         let wssPath;
 
         // Retry http request until successful
-        while (!wssPath) {
+        if (!wssPath) {
             try {
                 const raw: any = await https.post("https://openapi-v2.kucoin.com/api/v1/bullet-public"); // prettier-ignore
                 if (!raw.data || !raw.data.token) throw new Error("Unexpected token response");
