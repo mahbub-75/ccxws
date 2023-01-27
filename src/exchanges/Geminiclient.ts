@@ -108,9 +108,7 @@ export class GeminiClient extends EventEmitter implements IClient {
     // PROTECTED
 
     protected _subscribe(market: Market, mode: string) {
-        let remote_id = market.id.toLowerCase();
-        if (mode === "tickers") remote_id += "-tickers";
-
+        let remote_id = market.id;
         let subscription = this._subscriptions.get(remote_id);
 
         if (subscription && subscription[mode]) return;
