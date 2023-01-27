@@ -155,6 +155,7 @@ export class GeminiClient extends EventEmitter implements IClient {
      */
     protected _connect(remote_id: string) {
         const forTickers = remote_id.endsWith("-tickers");
+        console.log(remote_id)
         const wssPath =
             this.wssPath || forTickers
                 ? `wss://api.gemini.com/v1/marketdata/${remote_id}?heartbeat=true&top_of_book=true`
